@@ -1,12 +1,21 @@
 "use client";
 
+import { useState } from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 
 import { useStoryModal } from "@/hooks/use-story-modal";
 import { Modal } from "../ui/modal";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 
@@ -16,6 +25,8 @@ const formSchema = z.object({
 
 export const StoryModal = () => {
   const storyModal = useStoryModal();
+  const [loading, setLoading] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -24,7 +35,15 @@ export const StoryModal = () => {
   });
 
   const onSubmit = async (value: z.infer<typeof formSchema>) => {
-    // TODO: Create Story.
+    try {
+      setLoading(true);
+      const response = await axios.post("/api/stories", value);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -41,19 +60,31 @@ export const StoryModal = () => {
               <FormField
                 control={form.control}
                 name="name"
-                render={({field}) => (
+                render={({ field }) => (
                   <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="What will be it name this time?" {...field}/>
+                      <Input
+                        disabled={loading}
+                        placeholder="What will be it name this time?"
+                        {...field}
+                      />
                     </FormControl>
-                    <FormMessage/>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
               <div className="pt-6 space-x-2 flex items-center justify-end w-full">
-                <Button variant='outline' onClick={storyModal.onClose}>Cancel</Button>
-                <Button type="submit">Continue</Button>
+                <Button
+                  disabled={loading}
+                  variant="outline"
+                  onClick={storyModal.onClose}
+                >
+                  Cancel
+                </Button>
+                <Button disabled={loading} type="submit">
+                  Continue
+                </Button>
               </div>
             </form>
           </Form>
