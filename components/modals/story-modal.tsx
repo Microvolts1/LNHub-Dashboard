@@ -39,7 +39,7 @@ export const StoryModal = () => {
     try {
       setLoading(true);
       const response = await axios.post("/api/stories", value);
-      toast.success("Story created!");
+      window.location.assign(`/${response.data.id}`); // Assign is complete refresh, router can make modal re-open cause data can be not ready yet.
     } catch (error) {
       toast.error("Something went wrong");
     } finally {

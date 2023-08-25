@@ -18,11 +18,13 @@ export default async function SetupLayout({
       userId,
     },
     orderBy: {
-      updatedAt: 'desc'
-    }
+      updatedAt: "desc",
+    },
   });
 
   if (story) {
     redirect(`/${story.id}`);
   }
+
+  return <>{children}</>;
 }
