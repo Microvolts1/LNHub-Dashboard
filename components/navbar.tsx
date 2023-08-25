@@ -1,15 +1,27 @@
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, auth } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
 import { MainNav } from "./main-nav";
+import StorySwitcher from "./story-switcher";
+import prismadb from "@/lib/prismadb";
 
-const Navbar = () => {
+const Navbar = async () => {
+  const { userId } = auth();
+  if (!userId) {
+    redirect("/sign-in");
+  }
+
+  const stories = await prismadb.story.findMany({
+    where: {
+      userId,
+    },
+  });
+
   return (
     <div className="border-b">
       <div className="flex h-16 items-center px-4">
-        <div>This will be a story switcher</div>
-        <div>
-          <MainNav className="mx-6"/>
-        </div>
+        <StorySwitcher items={stories}/>
+        <MainNav className="mx-6" />
         <div className="ml-auto flex items-center space-x-4">
           <UserButton afterSignOutUrl="/" />
         </div>
