@@ -5,10 +5,14 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
+import axios from "axios";
+import { useParams, useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import Heading from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
+
 
 import { Trash } from "lucide-react";
 import {
@@ -21,6 +25,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+
 interface SettingsFormProps {
   initialData: Story;
 }
@@ -32,6 +37,8 @@ const formSchema = z.object({
 type SettingsFormValue = z.infer<typeof formSchema>;
 
 const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
+  const params = useParams();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -41,8 +48,17 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
   });
 
   const onSubmit = async (data: SettingsFormValue) => {
-    //submit data
-    console.log(data);
+    try {
+      setLoading(true);
+      await axios.patch(`/api/stories/${params.storyId}`, data);
+      router.refresh();
+      toast.success('Story updated!');
+    } catch (error) {
+      toast.error("Something went wrong!");
+    }
+    finally {
+      setLoading(false);
+    }
   };
 
   return (
