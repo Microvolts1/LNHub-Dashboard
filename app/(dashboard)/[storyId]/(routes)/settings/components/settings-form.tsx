@@ -1,8 +1,20 @@
-import React from 'react'
+'use client';
 
-const SettingsForm = () => {
+import Heading from "@/components/ui/heading";
+import { Story } from "@prisma/client";
+
+interface SettingsFormProps {
+  initialData: Story;
+}
+
+const SettingsForm: React.FC<SettingsFormProps> = ({initialData}) => {
   return (
-    <div>SettingsForm</div>
+    <div className="flex items-center justify-between">
+      <Heading
+        title="Settings"
+        description="Manage your story preferences"
+      />
+    </div>
   )
 }
 
