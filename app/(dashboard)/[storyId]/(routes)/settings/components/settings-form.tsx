@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import Heading from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 
-
 import { Trash } from "lucide-react";
 import {
   Form,
@@ -24,7 +23,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
 
 interface SettingsFormProps {
   initialData: Story;
@@ -52,11 +50,10 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
       setLoading(true);
       await axios.patch(`/api/stories/${params.storyId}`, data);
       router.refresh();
-      toast.success('Story updated!');
+      toast.success("Story updated!");
     } catch (error) {
       toast.error("Something went wrong!");
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
   };
