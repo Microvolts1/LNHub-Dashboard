@@ -42,13 +42,19 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
 
   const onSubmit = async (data: SettingsFormValue) => {
     //submit data
+    console.log(data);
   };
 
   return (
     <>
       <div className="flex items-center justify-between">
         <Heading title="Settings" description="Manage your story preferences" />
-        <Button variant="destructive" size="icon" onClick={() => {}}>
+        <Button
+          variant="destructive"
+          size="icon"
+          onClick={() => setOpen(true)}
+          disabled={loading}
+        >
           <Trash className="h-4 w-4" />
         </Button>
       </div>
