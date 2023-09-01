@@ -59,7 +59,9 @@ const StorySwitcher = ({ className, items = [] }: StorySwitcherProps) => {
           className={cn("w-[200px] justify-between", className)}
         >
           <Library className="mr-2" />
-          {currentStory?.label}
+          <div className="truncate">
+            {currentStory?.label}
+          </div>
           <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
