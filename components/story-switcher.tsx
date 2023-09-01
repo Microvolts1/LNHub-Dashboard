@@ -7,7 +7,13 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { useStoryModal } from "@/hooks/use-story-modal";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "./ui/button";
-import { BookOpen, Check, ChevronsUpDown, Library, PlusCircle } from "lucide-react";
+import {
+  BookOpen,
+  Check,
+  ChevronsUpDown,
+  Library,
+  PlusCircle,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Command,
@@ -59,9 +65,7 @@ const StorySwitcher = ({ className, items = [] }: StorySwitcherProps) => {
           className={cn("w-[200px] justify-between", className)}
         >
           <Library className="mr-2" />
-          <div className="truncate">
-            {currentStory?.label}
-          </div>
+          <div className="truncate">{currentStory?.label}</div>
           <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
