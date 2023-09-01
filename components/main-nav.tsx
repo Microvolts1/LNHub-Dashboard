@@ -13,6 +13,11 @@ export function MainNav({
   const params = useParams();
   const routes = [
     {
+      href: `/${params.storyId}`,
+      label: `Overview`,
+      active: pathName === `/${params.storyId}`,
+    },
+    {
       href: `/${params.storyId}/settings`,
       label: `Settings`,
       active: pathName === `/${params.storyId}/settings`,
