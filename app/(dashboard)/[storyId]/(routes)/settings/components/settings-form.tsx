@@ -23,6 +23,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import AlertModal from "@/components/modals/alert-modal";
 
 interface SettingsFormProps {
   initialData: Story;
@@ -51,15 +52,37 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
       await axios.patch(`/api/stories/${params.storyId}`, data);
       router.refresh();
       toast.success("Story updated!");
-    } catch (error) {
+    } catch (error) {``
       toast.error("Something went wrong!");
     } finally {
       setLoading(false);
     }
   };
 
+  const onDelete = async () => {
+    try {
+      setLoading(true);
+      await axios.delete(`/api/stories/${params.storyId}`)
+      router.refresh();
+      router.push('/');
+      toast.success('Story deleted.');
+    } catch (error) {
+      toast.error("Something went wrong!");
+    }
+    finally {
+      setLoading(false);
+      setOpen(false)
+    }
+  }
+
   return (
     <>
+      <AlertModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onConfirm={onDelete}
+        loading={loading}
+      />
       <div className="flex items-center justify-between">
         <Heading title="Settings" description="Manage your story preferences" />
         <Button
